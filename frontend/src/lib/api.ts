@@ -9,6 +9,22 @@ const nonRunningAgentRuns = new Set<string>();
 // Map to keep track of active EventSource streams
 const activeStreams = new Map<string, EventSource>();
 
+// Demo thread IDs that should be fetched from suna.so
+const DEMO_THREAD_IDS = [
+  '2fbf0552-87d6-4d12-be25-d54f435bc493',
+  'a172382b-aa77-42a2-a3e1-46f32a0f9c37',
+  'd9e39c94-4f6f-4b5a-b1a0-b681bfe0dee8',
+  '23f7d904-eb66-4a9c-9247-b9704ddfd233',
+  'bf6a819b-6af5-4ef7-b861-16e5261ceeb0',
+  '6830cc6d-3fbd-492a-93f8-510a5f48ce50',
+  'a106ef9f-ed97-46ee-8e51-7bfaf2ac3c29',
+  'a01744fc-6b33-434c-9d4e-67d7e820297c',
+  '59be8603-3225-4c15-a948-ab976e5912f6',
+  '8442cc76-ac8b-438c-b539-4b93909a2218',
+  'f04c871c-6bf5-4464-8e9c-5351c9cf5a60',
+  '53bcd4c7-40d6-4293-9f69-e2638ddcfad8',
+];
+
 // Custom error for billing issues
 export class BillingError extends Error {
   status: number;
@@ -98,6 +114,42 @@ export interface FileInfo {
   permissions?: string;
 }
 
+// Helper function to create suna.so Supabase client
+const createSunaClient = () => {
+  const supabaseUrl = 'https://jbriwassebxdwoieikga.supabase.co';
+  const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impicml3YXNzZWJ4ZHdvaWVpa2dhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQzOTMzMjYsImV4cCI6MjA1OTk2OTMyNn0.1iYSZAYGOc0B0-64KzLKwMA3dYNn0enQteikh9_VnDc';
+
+  const headers = {
+    'Apikey': apiKey,
+    'Authorization': `Bearer ${apiKey}`,
+  };
+
+  return {
+    async getThread(threadId: string) {
+      const response = await fetch(`${supabaseUrl}/rest/v1/threads?select=*&thread_id=eq.${threadId}`, { headers });
+      if (!response.ok) throw new Error(`Suna API error: ${response.status}`);
+      const data = await response.json();
+      if (!data || data.length === 0) throw new Error('No data found');
+      return { data: data[0], error: null };
+    },
+
+    async getMessages(threadId: string) {
+      const response = await fetch(`${supabaseUrl}/rest/v1/messages?select=*&thread_id=eq.${threadId}&type=neq.cost&type=neq.summary&order=created_at.asc`, { headers });
+      if (!response.ok) throw new Error(`Suna API error: ${response.status}`);
+      const data = await response.json();
+      return { data: data || [], error: null };
+    },
+
+    async getProject(projectId: string) {
+      const response = await fetch(`${supabaseUrl}/rest/v1/projects?select=*&project_id=eq.${projectId}`, { headers });
+      if (!response.ok) throw new Error(`Suna API error: ${response.status}`);
+      const data = await response.json();
+      if (!data || data.length === 0) throw new Error('No data found');
+      return { data: data[0], error: null };
+    }
+  };
+};
+
 // Project APIs
 export const getProjects = async (): Promise<Project[]> => {
   try {
@@ -166,6 +218,42 @@ export const getProjects = async (): Promise<Project[]> => {
 };
 
 export const getProject = async (projectId: string): Promise<Project> => {
+  // For demo projects, we need to check if any demo thread belongs to this project
+  // We'll try suna.so first if we suspect it might be a demo project
+  const tryFromSuna = async (): Promise<Project | null> => {
+    try {
+      console.log(`[API] Trying to fetch project ${projectId} from suna.so`);
+      const sunaClient = createSunaClient();
+      const { data, error } = await sunaClient
+        .getProject(projectId);
+
+      if (error) {
+        return null;
+      }
+
+      // Map database fields to our Project type
+      const mappedProject: Project = {
+        id: data.project_id,
+        name: data.name || '',
+        description: data.description || '',
+        account_id: data.account_id,
+        is_public: data.is_public || false,
+        created_at: data.created_at,
+        sandbox: data.sandbox || {
+          id: '',
+          pass: '',
+          vnc_preview: '',
+          sandbox_url: '',
+        },
+      };
+
+      return mappedProject;
+    } catch (error) {
+      console.log(`[API] Could not fetch project ${projectId} from suna.so:`, error);
+      return null;
+    }
+  };
+
   const supabase = createClient();
 
   try {
@@ -178,6 +266,11 @@ export const getProject = async (projectId: string): Promise<Project> => {
     if (error) {
       // Handle the specific "no rows returned" error from Supabase
       if (error.code === 'PGRST116') {
+        // Try suna.so as fallback for demo projects
+        const sunaProject = await tryFromSuna();
+        if (sunaProject) {
+          return sunaProject;
+        }
         throw new Error(`Project not found or not accessible: ${projectId}`);
       }
       throw error;
@@ -432,6 +525,21 @@ export const getThreads = async (projectId?: string): Promise<Thread[]> => {
 };
 
 export const getThread = async (threadId: string): Promise<Thread> => {
+  // Check if this is a demo thread ID
+  if (DEMO_THREAD_IDS.includes(threadId)) {
+    console.log(`[API] Fetching demo thread ${threadId} from suna.so`);
+    const sunaClient = createSunaClient();
+    const { data, error } = await sunaClient
+      .getThread(threadId);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
+  // Use local Supabase for non-demo threads
   const supabase = createClient();
   const { data, error } = await supabase
     .from('threads')
@@ -502,6 +610,23 @@ export const addUserMessage = async (
 };
 
 export const getMessages = async (threadId: string): Promise<Message[]> => {
+  // Check if this is a demo thread ID
+  if (DEMO_THREAD_IDS.includes(threadId)) {
+    console.log(`[API] Fetching demo messages for thread ${threadId} from suna.so`);
+    const sunaClient = createSunaClient();
+    const { data, error } = await sunaClient
+      .getMessages(threadId);
+
+    if (error) {
+      console.error('Error fetching messages from suna.so:', error);
+      throw new Error(`Error getting messages: ${error.message}`);
+    }
+
+    console.log('[API] Messages fetched from suna.so:', data);
+    return data || [];
+  }
+
+  // Use local Supabase for non-demo threads
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -614,7 +739,7 @@ export const startAgent = async (
     }
 
     console.error('[API] Failed to start agent:', error);
-    
+
     // Handle different error types with appropriate user messages
     if (
       error instanceof TypeError &&
@@ -895,10 +1020,10 @@ export const streamAgent = (
             const jsonData = JSON.parse(rawData);
             if (jsonData.status === 'error') {
               console.error(`[STREAM] Error status received for ${agentRunId}:`, jsonData);
-              
+
               // Pass the error message to the callback
               callbacks.onError(jsonData.message || 'Unknown error occurred');
-              
+
               // Don't close the stream for error status messages as they may continue
               return;
             }
@@ -1194,10 +1319,10 @@ export const listSandboxFiles = async (
     } = await supabase.auth.getSession();
 
     const url = new URL(`${API_URL}/sandboxes/${sandboxId}/files`);
-    
+
     // Normalize the path to handle Unicode escape sequences
     const normalizedPath = normalizePathWithUnicode(path);
-    
+
     // Properly encode the path parameter for UTF-8 support
     url.searchParams.append('path', normalizedPath);
 
@@ -1243,10 +1368,10 @@ export const getSandboxFileContent = async (
     } = await supabase.auth.getSession();
 
     const url = new URL(`${API_URL}/sandboxes/${sandboxId}/files/content`);
-    
+
     // Normalize the path to handle Unicode escape sequences
     const normalizedPath = normalizePathWithUnicode(path);
-    
+
     // Properly encode the path parameter for UTF-8 support
     url.searchParams.append('path', normalizedPath);
 
@@ -1404,12 +1529,12 @@ export const initiateAgent = async (
       const errorText = await response
         .text()
         .catch(() => 'No error details available');
-      
+
       console.error(
         `[API] Error initiating agent: ${response.status} ${response.statusText}`,
         errorText,
       );
-    
+
       if (response.status === 402) {
         throw new Error('Payment Required');
       } else if (response.status === 401) {
@@ -1417,7 +1542,7 @@ export const initiateAgent = async (
       } else if (response.status >= 500) {
         throw new Error('Server error: Please try again later');
       }
-    
+
       throw new Error(
         `Error initiating agent: ${response.statusText} (${response.status})`,
       );
