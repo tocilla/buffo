@@ -117,6 +117,24 @@ See the [Self-Hosting Guide](./docs/SELF-HOSTING.md) for detailed manual setup i
 
 The wizard will guide you through all necessary steps to get your Suna instance up and running. For detailed instructions, troubleshooting tips, and advanced configuration options, see the [Self-Hosting Guide](./SELF-HOSTING.md).
 
+### Development Mode (Recommended for coding)
+For the best development experience with hot reload and instant code changes:
+
+```bash
+# Start development environment
+python start.py --dev
+```
+
+**Benefits**: No rebuilds needed, hot reload, live editing, debug mode
+
+### Production Mode
+```bash
+# Start production environment
+python start.py
+```
+
+📖 **For detailed development setup instructions, see [DEVELOPMENT.md](DEVELOPMENT.md)**
+
 ## Contributing
 
 We welcome contributions from the community! Please see our [Contributing Guide](./CONTRIBUTING.md) for more details.

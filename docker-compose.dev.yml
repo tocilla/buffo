@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    volumes:
+      # Mount source code for live editing
+      - ./backend:/app
+    command: uvicorn api:app --host 0.0.0.0 --port 8000 --reload --log-level debug
+    environment:
+      # Development-specific environment variables only
+      - ENV_MODE=development
+      - DEBUG=true
+
+  worker:
+    volumes:
+      # Mount source code for live editing
+      - ./backend:/app
+    environment:
+      # Development-specific environment variables only
+      - ENV_MODE=development
+      - DEBUG=true
+
+  frontend:
+    volumes:
+      # Mount source code for live editing
+      - ./frontend:/app
+      - /app/node_modules  # Prevent node_modules from being overwritten
+      - ./frontend/.env.local:/app/.env.local:ro
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
