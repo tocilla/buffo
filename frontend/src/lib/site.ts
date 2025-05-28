@@ -1,11 +1,11 @@
 export const siteConfig = {
-  name: 'Kortix Suna',
-  url: 'https://suna.so/',
-  description: 'Kortix AI',
+  name: 'Buffo',
+  url: 'http://157.180.8.150:3000',
+  description: 'Buffo AI',
   links: {
-    twitter: 'https://x.com/kortixai',
-    github: 'https://github.com/kortix-ai/',
-    linkedin: 'https://www.linkedin.com/company/kortix/',
+    twitter: 'https://x.com/buffoai',
+    github: 'https://github.com/buffo-ai/',
+    linkedin: 'https://www.linkedin.com/company/buffo/',
   },
 };
 
