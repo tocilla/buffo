@@ -23,7 +23,7 @@ export default function Home() {
           {/* <QuoteSection /> */}
           {/* <FeatureSection /> */}
           {/* <GrowthSection /> */}
-          <OpenSourceSection />
+          {/* <OpenSourceSection /> */}
           <PricingSection />
           {/* <TestimonialSection /> */}
           {/* <FAQSection /> */}
