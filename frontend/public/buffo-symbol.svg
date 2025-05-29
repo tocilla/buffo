@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" fill="none" stroke="#063d2d" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Frog–octopus hybrid -->
+  <!-- Head outline -->
+  <path d="M90 90 Q150 30 210 90" />
+  <path d="M90 90 Q150 120 210 90" />
+
+  <!-- Eyes -->
+  <circle cx="110" cy="70" r="14" />
+  <circle cx="190" cy="70" r="14" />
+
+  <!-- Nostrils -->
+  <circle cx="138" cy="95" r="4" fill="#063d2d" stroke="none"/>
+  <circle cx="162" cy="95" r="4" fill="#063d2d" stroke="none"/>
+
+  <!-- Tentacles (8) -->
+  <path d="M150 120 C 150 150 130 170 130 200 C 130 220 140 230 150 240" />
+  <path d="M150 120 C 150 150 170 170 170 200 C 170 220 160 230 150 240" />
+
+  <path d="M130 120 C 120 160 90 180 90 210 C 90 230 100 240 110 245" />
+  <path d="M170 120 C 180 160 210 180 210 210 C 210 230 200 240 190 245" />
+
+  <path d="M110 120 C 80 150 60 160 60 190 C 60 210 70 220 80 225" />
+  <path d="M190 120 C 220 150 240 160 240 190 C 240 210 230 220 220 225" />
+
+  <path d="M100 120 C 60 150 40 160 40 190 C 40 210 50 220 65 228" />
+  <path d="M200 120 C 240 150 260 160 260 190 C 260 210 250 220 235 228" />
+</svg>
