@@ -270,7 +270,7 @@ export function HeroSection() {
             {hero.badgeIcon}
             {hero.badge}
           </p> */}
-
+          {/*
           <Link
             href={hero.githubUrl}
             target="_blank"
@@ -300,6 +300,7 @@ export function HeroSection() {
               </svg>
             </span>
           </Link>
+          */}
           <div className="flex flex-col items-center justify-center gap-5">
             <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tighter text-balance text-center">
               <span className="text-secondary">Buffo</span>
@@ -360,7 +361,7 @@ export function HeroSection() {
               <DialogTitle className="text-xl font-medium">
                 Sign in to continue
               </DialogTitle>
-              {/* <button 
+              {/* <button
                 onClick={() => setAuthDialogOpen(false)}
                 className="rounded-full p-1 hover:bg-muted transition-colors"
               >
