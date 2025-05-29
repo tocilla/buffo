@@ -1,0 +1,12 @@
+This product includes software developed by the Kortix AI team,
+originally released under the repository: https://github.com/kortix-ai/suna
+Licensed under the Apache License, Version 2.0.
+
+Modifications have been made by Buffo team, including:
+ - Full rebranding (renamed to Buffo, updated logo and UI copy)
+ - Added Docker Compose support for local development
+ - Updated demo, About, and other public-facing pages
+ - Replaced external links with project-specific resources
+
+You may obtain a copy of the License at:
+http://www.apache.org/licenses/LICENSE-2.0
