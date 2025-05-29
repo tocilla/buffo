@@ -99,11 +99,7 @@ export function Navbar() {
   const toggleDrawer = () => setIsDrawerOpen((prev) => !prev);
   const handleOverlayClick = () => setIsDrawerOpen(false);
 
-  const logoSrc = !mounted
-    ? '/kortix-logo.svg'
-    : resolvedTheme === 'dark'
-      ? '/kortix-logo-white.svg'
-      : '/kortix-logo.svg';
+  const logoSrc = '/buffo-logo.svg';
 
   return (
     <header
@@ -129,10 +125,11 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-3">
               <Image
                 src={logoSrc}
-                alt="Kortix Logo"
+                alt="Buffo Logo"
                 width={140}
                 height={22}
                 priority
+                className={`${mounted && resolvedTheme === 'dark' ? 'invert' : ''}`}
               />
             </Link>
 
@@ -208,10 +205,11 @@ export function Navbar() {
                   <Link href="/" className="flex items-center gap-3">
                     <Image
                       src={logoSrc}
-                      alt="Kortix Logo"
+                      alt="Buffo Logo"
                       width={120}
                       height={22}
                       priority
+                      className={`${mounted && resolvedTheme === 'dark' ? 'invert' : ''}`}
                     />
                     <span className="font-medium text-primary text-sm">
                       / Suna

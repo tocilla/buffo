@@ -13,10 +13,12 @@ export function KortixLogo() {
     setMounted(true);
   }, []);
 
+  const logoSrc = '/buffo-logo.svg';
+
   return (
     <div className="flex h-6 w-6 items-center justify-center flex-shrink-0">
       <Image
-        src="/buffo-symbol.svg"
+        src={logoSrc}
         alt="Buffo"
         width={24}
         height={24}

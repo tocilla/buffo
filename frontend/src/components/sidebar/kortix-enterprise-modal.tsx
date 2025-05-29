@@ -15,7 +15,13 @@ export function KortixProcessModal() {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { resolvedTheme } = useTheme();
-  const isDarkMode = resolvedTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const logoSrc = '/buffo-logo.svg';
 
   useEffect(() => {
     (async function () {
@@ -41,13 +47,11 @@ export function KortixProcessModal() {
             <div className="relative z-10 flex flex-col h-full">
               <div className="mb-8 mt-0 flex-shrink-0">
                 <Image
-                  src={
-                    isDarkMode ? '/kortix-logo-white.svg' : '/kortix-logo.svg'
-                  }
-                  alt="Kortix Logo"
+                  src={logoSrc}
+                  alt="Buffo Logo"
                   width={60}
                   height={21}
-                  className="h-6 w-auto"
+                  className={`h-6 w-auto ${mounted && resolvedTheme === 'dark' ? 'invert' : ''}`}
                 />
               </div>
 

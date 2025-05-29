@@ -19,11 +19,7 @@ export function FooterSection() {
     setMounted(true);
   }, []);
 
-  const logoSrc = !mounted
-    ? '/kortix-logo.svg'
-    : resolvedTheme === 'dark'
-      ? '/kortix-logo-white.svg'
-      : '/kortix-logo.svg';
+  const logoSrc = '/buffo-logo.svg';
 
   return (
     <footer id="footer" className="w-full pb-0">
@@ -32,10 +28,11 @@ export function FooterSection() {
           <Link href="/" className="flex items-center gap-2">
             <Image
               src={logoSrc}
-              alt="Kortix Logo"
+              alt="Buffo Logo"
               width={122}
               height={22}
               priority
+              className={`${mounted && resolvedTheme === 'dark' ? 'invert' : ''}`}
             />
           </Link>
           <p className="tracking-tight text-muted-foreground font-medium">
