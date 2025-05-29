@@ -175,7 +175,7 @@ function DashboardContent() {
               "text-2xl",
               "sm:text-3xl sm:mt-3 sm:px-4"
             )}>
-              What would you like Suna to do today?
+              What would you like Buffo to do today?
             </p>
           </div>
           

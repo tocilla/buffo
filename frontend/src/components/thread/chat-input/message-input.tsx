@@ -157,7 +157,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The free tier is severely limited by inferior models; upgrade to experience the true full Suna experience.</p>
+                  <p>The free tier is severely limited by inferior models; upgrade to experience the true full Buffo experience.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

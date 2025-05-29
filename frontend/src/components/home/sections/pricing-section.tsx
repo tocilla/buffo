@@ -698,6 +698,7 @@ export function PricingSection({
               usage hours
             </p>
           </SectionHeader>
+          {/*
           <div className="relative w-full h-full">
             <div className="absolute -top-14 left-1/2 -translate-x-1/2">
               <PricingTabs
@@ -707,6 +708,7 @@ export function PricingSection({
               />
             </div>
           </div>
+          */}
         </>
       )}
 

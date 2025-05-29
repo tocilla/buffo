@@ -19,7 +19,7 @@ export function CTACard() {
         <div>
           <KortixProcessModal />
         </div>
-
+        {/*
         <div className="flex items-center pt-1 border-t border-blue-200/50 dark:border-blue-800/30 mt-1">
           <Link
             href="https://www.kortix.ai/careers"
@@ -32,6 +32,7 @@ export function CTACard() {
             <ExternalLink className="ml-1 h-3 w-3" />
           </Link>
         </div>
+        */}
       </div>
     </div>
   );
