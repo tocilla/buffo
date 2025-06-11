@@ -127,7 +127,7 @@ export function FooterSection() {
         </div>
       </div>
       <Link
-        href="https://www.youtube.com/watch?v=nuf5BF1jvjQ"
+        href="https://www.youtube.com/watch?v=Uv-UMAiWsPI"
         target="_blank"
         rel="noopener noreferrer"
         className="block w-full h-48 md:h-64 relative mt-24 z-0 cursor-pointer"
