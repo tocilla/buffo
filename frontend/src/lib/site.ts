@@ -1,11 +1,11 @@
 export const siteConfig = {
-  name: 'Buffo',
+  name: 'Faal',
   url: 'http://157.180.8.150:3000',
-  description: 'Buffo AI',
+  description: 'Faal AI',
   links: {
-    twitter: 'https://x.com/buffoai',
-    github: 'https://github.com/buffo-ai/',
-    linkedin: 'https://www.linkedin.com/company/buffo/',
+    twitter: 'https://x.com/faalai',
+    github: 'https://github.com/faal-ai/',
+    linkedin: 'https://www.linkedin.com/company/faal/',
   },
 };
 
