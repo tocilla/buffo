@@ -115,7 +115,9 @@ allowed_origins = [
     "https://faal.ai",
     "http://www.faal.ai",
     "http://www.faal.ai",
-    "http://157.180.8.150:3000"
+    "http://157.180.8.150:3000",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
 ]
 allow_origin_regex = None
 
