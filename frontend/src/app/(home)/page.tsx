@@ -1,6 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/AuthProvider';
 // Commented out landing page components - keeping for future use
 // import { CTASection } from '@/components/home/sections/cta-section';
 // // import { FAQSection } from "@/components/sections/faq-section";
@@ -12,6 +14,20 @@ import { useEffect, useState } from 'react';
 // import { ModalProviders } from '@/providers/modal-providers';
 
 export default function Home() {
+  const router = useRouter();
+  const { user, isLoading } = useAuth();
+
+  useEffect(() => {
+    // Client-side redirect as fallback if middleware doesn't work
+    if (!isLoading) {
+      if (user) {
+        router.replace('/dashboard');
+      } else {
+        router.replace('/auth');
+      }
+    }
+  }, [user, isLoading, router]);
+
   // Landing page is temporarily disabled - redirects handled by middleware
   // This page should not be reached due to middleware redirect
   return (
