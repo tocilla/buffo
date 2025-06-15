@@ -494,7 +494,7 @@ function LoginContent() {
                 )}
               </form>
 
-              <div className="mt-8 text-center text-xs text-muted-foreground">
+              {/* <div className="mt-8 text-center text-xs text-muted-foreground">
                 By continuing, you agree to our{' '}
                 <Link href="/terms" className="text-primary hover:underline">
                   Terms of Service
@@ -503,7 +503,7 @@ function LoginContent() {
                 <Link href="/privacy" className="text-primary hover:underline">
                   Privacy Policy
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
