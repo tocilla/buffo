@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { ApiMessageType } from '@/components/thread/types';
 import { CircleDashed, X, ChevronLeft, ChevronRight, Computer, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { ToolView } from './tool-views/wrapper';
@@ -75,6 +76,7 @@ export function ToolCallSidePanel({
   const [isInitialized, setIsInitialized] = React.useState(false);
 
   const isMobile = useIsMobile();
+  const { config, loading: configLoading } = useUserConfig();
 
   React.useEffect(() => {
     const newSnapshots = toolCalls.map((toolCall, index) => ({
@@ -331,7 +333,7 @@ export function ToolCallSidePanel({
                 <div className="ml-2 flex items-center gap-2">
                   <Computer className="h-4 w-4" />
                   <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
-                    Faal AI's Computer
+                    {configLoading ? 'AI Computer' : `${config.branding.name}'s Computer`}
                   </h2>
                 </div>
                 <Button
@@ -367,7 +369,7 @@ export function ToolCallSidePanel({
               <div className="ml-2 flex items-center gap-2">
                 <Computer className="h-4 w-4" />
                 <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
-                  Faal's Computer
+                  {configLoading ? 'AI Computer' : `${config.branding.name}'s Computer`}
                 </h2>
               </div>
               <Button
@@ -409,15 +411,15 @@ export function ToolCallSidePanel({
       if (firstStreamingTool && totalCompletedCalls === 0) {
         return (
           <div className="flex flex-col h-full">
-            <div className="pt-4 pl-4 pr-4">
-              <div className="flex items-center justify-between">
-                <div className="ml-2 flex items-center gap-2">
-                  <Computer className="h-4 w-4" />
-                  <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
-                    Faal's Computer
-                  </h2>
-                </div>
-                <div className="flex items-center gap-2">
+                      <div className="pt-4 pl-4 pr-4">
+            <div className="flex items-center justify-between">
+              <div className="ml-2 flex items-center gap-2">
+                <Computer className="h-4 w-4" />
+                <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
+                  {configLoading ? 'AI Computer' : `${config.branding.name}'s Computer`}
+                </h2>
+              </div>
+              <div className="flex items-center gap-2">
                   <div className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 flex items-center gap-1.5">
                     <CircleDashed className="h-3 w-3 animate-spin" />
                     <span>Running</span>
@@ -456,15 +458,15 @@ export function ToolCallSidePanel({
 
       return (
         <div className="flex flex-col h-full">
-          <div className="pt-4 pl-4 pr-4">
-            <div className="flex items-center justify-between">
-              <div className="ml-2 flex items-center gap-2">
-                <Computer className="h-4 w-4" />
-                <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
-                  Faal's Computer
-                </h2>
-              </div>
-              <Button
+                  <div className="pt-4 pl-4 pr-4">
+          <div className="flex items-center justify-between">
+            <div className="ml-2 flex items-center gap-2">
+              <Computer className="h-4 w-4" />
+              <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
+                {configLoading ? 'AI Computer' : `${config.branding.name}'s Computer`}
+              </h2>
+            </div>
+            <Button
                 variant="ghost"
                 size="icon"
                 onClick={onClose}
@@ -509,7 +511,7 @@ export function ToolCallSidePanel({
             <div className="ml-2 flex items-center gap-2">
               <Computer className="h-4 w-4" />
               <h2 className="text-md font-medium text-zinc-900 dark:text-zinc-100">
-                Faal's Computer
+                {configLoading ? 'AI Computer' : `${config.branding.name}'s Computer`}
               </h2>
             </div>
 

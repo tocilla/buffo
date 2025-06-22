@@ -26,6 +26,7 @@ import { UnifiedMessage, ApiMessageType, ToolCallInput, Project } from '../_type
 import { useThreadData, useToolCalls, useBilling, useKeyboardShortcuts } from '../_hooks';
 import { ThreadError, UpgradeDialog, ThreadLayout } from '../_components';
 import { useVncPreloader } from '@/hooks/useVncPreloader';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 export default function ThreadPage({
   params,
@@ -39,6 +40,7 @@ export default function ThreadPage({
   const { projectId, threadId } = unwrappedParams;
   const isMobile = useIsMobile();
   const searchParams = useSearchParams();
+  const { config, loading: configLoading } = useUserConfig();
 
   // State
   const [newMessage, setNewMessage] = useState('');
@@ -455,8 +457,8 @@ export default function ThreadPage({
 
   // SEO title update
   useEffect(() => {
-    if (projectName) {
-      document.title = `${projectName} | Faal AI`;
+    if (projectName && !configLoading) {
+      document.title = `${projectName} | ${config.branding.name}`;
 
       const metaDescription = document.querySelector(
         'meta[name="description"]',
@@ -464,13 +466,13 @@ export default function ThreadPage({
       if (metaDescription) {
         metaDescription.setAttribute(
           'content',
-          `${projectName} - Interactive agent conversation powered by Faal AI`,
+          `${projectName} - Interactive agent conversation powered by ${config.branding.name}`,
         );
       }
 
       const ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) {
-        ogTitle.setAttribute('content', `${projectName} | Faal AI`);
+        ogTitle.setAttribute('content', `${projectName} | ${config.branding.name}`);
       }
 
       const ogDescription = document.querySelector(
@@ -483,7 +485,7 @@ export default function ThreadPage({
         );
       }
     }
-  }, [projectName]);
+  }, [projectName, config.branding.name, configLoading]);
 
   useEffect(() => {
     const debugParam = searchParams.get('debug');
@@ -622,7 +624,7 @@ export default function ThreadPage({
               value={newMessage}
               onChange={setNewMessage}
               onSubmit={handleSubmitMessage}
-              placeholder="Ask Faal AI anything..."
+              placeholder={configLoading ? 'Loading...' : config.app.placeholderText}
               loading={isSending}
               disabled={isSending || agentStatus === 'running' || agentStatus === 'connecting'}
               isAgentRunning={agentStatus === 'running' || agentStatus === 'connecting'}

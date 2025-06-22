@@ -9,6 +9,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Script from 'next/script';
+import { cookies } from 'next/headers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,88 +25,118 @@ export const viewport: Viewport = {
   themeColor: 'black',
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description:
-    'Suna is a fully open source AI assistant that helps you accomplish real-world tasks with ease. Through natural conversation, Suna becomes your digital companion for research, data analysis, and everyday challenges.',
-  keywords: [
-    'AI',
-    'artificial intelligence',
-    'browser automation',
-    'web scraping',
-    'file management',
-    'AI assistant',
-    'open source',
-    'research',
-    'data analysis',
-  ],
-  authors: [{ name: 'Kortix Team', url: 'https://suna.so' }],
-  creator:
-    'Kortix Team - Adam Cohen Hillel, Marko Kraemer, Domenico Gagliardi, and Quoc Dat Le',
-  publisher:
-    'Kortix Team - Adam Cohen Hillel, Marko Kraemer, Domenico Gagliardi, and Quoc Dat Le',
-  category: 'Technology',
-  applicationName: 'Suna',
-  formatDetection: {
-    telephone: false,
-    email: false,
-    address: false,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+// Helper function to get user config based on username
+async function getUserConfig(username?: string) {
+  const defaultConfig = {
+    branding: {
+      name: 'Buffo',
+      description: 'Buffo is a fully open source AI assistant that helps you accomplish real-world tasks with ease. Through natural conversation, Buffo becomes your digital companion for research, data analysis, and everyday challenges.',
+      logo: '/buffo-logo.svg'
+    },
+    contact: {
+      url: 'https://buffo.so',
+      twitter: '@buffoai'
+    }
+  };
+
+  if (!username) return defaultConfig;
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${username}-config.json`);
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (error) {
+    console.error('Error loading user config:', error);
+  }
+
+  return defaultConfig;
+}
+
+// Generate metadata dynamically based on user
+export async function generateMetadata(): Promise<Metadata> {
+  const cookieStore = await cookies();
+  const username = cookieStore.get('username')?.value;
+  const config = await getUserConfig(username);
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: config.branding.name,
+      template: `%s - ${config.branding.name}`,
+    },
+    description: config.branding.description,
+    keywords: [
+      'AI',
+      'artificial intelligence',
+      'browser automation',
+      'web scraping',
+      'file management',
+      'AI assistant',
+      'open source',
+      'research',
+      'data analysis',
+    ],
+    authors: [{ name: 'Buffo Team', url: config.contact.url }],
+    creator: 'Buffo Team',
+    publisher: 'Buffo Team',
+    category: 'Technology',
+    applicationName: config.branding.name,
+    formatDetection: {
+      telephone: false,
+      email: false,
+      address: false,
+    },
+    robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
     },
-  },
-  openGraph: {
-    title: 'Suna - Open Source Generalist AI Agent',
-    description:
-      'Suna is a fully open source AI assistant that helps you accomplish real-world tasks with ease through natural conversation.',
-    url: siteConfig.url,
-    siteName: 'Suna',
-    images: [
-      {
-        url: '/banner.png',
-        width: 1200,
-        height: 630,
-        alt: 'Suna - Open Source Generalist AI Agent',
-        type: 'image/png',
-      },
-    ],
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Suna - Open Source Generalist AI Agent',
-    description:
-      'Suna is a fully open source AI assistant that helps you accomplish real-world tasks with ease through natural conversation.',
-    creator: '@kortixai',
-    site: '@kortixai',
-    images: [
-      {
-        url: '/banner.png',
-        width: 1200,
-        height: 630,
-        alt: 'Suna - Open Source Generalist AI Agent',
-      },
-    ],
-  },
-  icons: {
-    icon: [{ url: '/favicon.png', sizes: 'any' }],
-    shortcut: '/favicon.png',
-  },
-  // manifest: "/manifest.json",
-  alternates: {
-    canonical: siteConfig.url,
-  },
-};
+    openGraph: {
+      title: `${config.branding.name} - Open Source Generalist AI Agent`,
+      description: config.branding.description,
+      url: siteConfig.url,
+      siteName: config.branding.name,
+      images: [
+        {
+          url: '/banner.png',
+          width: 1200,
+          height: 630,
+          alt: `${config.branding.name} - Open Source Generalist AI Agent`,
+          type: 'image/png',
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${config.branding.name} - Open Source Generalist AI Agent`,
+      description: config.branding.description,
+      creator: config.contact.twitter,
+      site: config.contact.twitter,
+      images: [
+        {
+          url: '/banner.png',
+          width: 1200,
+          height: 630,
+          alt: `${config.branding.name} - Open Source Generalist AI Agent`,
+        },
+      ],
+    },
+    icons: {
+      icon: [{ url: '/favicon.png', sizes: 'any' }],
+      shortcut: '/favicon.png',
+    },
+    // manifest: "/manifest.json",
+    alternates: {
+      canonical: siteConfig.url,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

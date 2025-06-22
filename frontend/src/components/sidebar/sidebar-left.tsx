@@ -25,12 +25,14 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 export function SidebarLeft({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const { state, setOpen, setOpenMobile } = useSidebar();
   const isMobile = useIsMobile();
+  const { config, loading: configLoading } = useUserConfig();
   const [user, setUser] = useState<{
     name: string;
     email: string;
@@ -97,7 +99,9 @@ export function SidebarLeft({
           </Link>
           {state !== 'collapsed' && (
             <div className="ml-2 transition-all duration-200 ease-in-out whitespace-nowrap">
-              {/* <span className="font-semibold"> SUNA</span> */}
+              <span className="font-semibold">
+                {configLoading ? 'Loading...' : config.branding.name}
+              </span>
             </div>
           )}
           <div className="ml-auto flex items-center gap-2">

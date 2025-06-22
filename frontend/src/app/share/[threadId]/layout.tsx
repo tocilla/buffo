@@ -4,14 +4,14 @@ import { getThread, getProject } from '@/lib/api-server';
 export async function generateMetadata({ params }): Promise<Metadata> {
   const { threadId } = await params;
   const fallbackMetaData = {
-    title: 'Shared Conversation | Faal AI',
-    description: 'Replay this Agent conversation on Faal AI',
+    title: 'Shared Conversation | AI Agent',
+    description: 'Replay this Agent conversation',
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_URL}/share/${threadId}`,
     },
     openGraph: {
-      title: 'Shared Conversation | Faal AI',
-      description: 'Replay this Agent conversation on Faal AI',
+      title: 'Shared Conversation | AI Agent',
+      description: 'Replay this Agent conversation',
       images: [`${process.env.NEXT_PUBLIC_URL}/share-page/og-fallback.png`],
     },
   };
@@ -29,10 +29,10 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       process.env.NEXT_PUBLIC_ENV_MODE === 'LOCAL' ||
       process.env.NEXT_PUBLIC_ENV_MODE === 'local';
 
-    const title = projectData.name || 'Shared Conversation | Faal AI';
+    const title = projectData.name || 'Shared Conversation | AI Agent';
     const description =
       projectData.description ||
-      'Replay this Agent conversation on Faal AI';
+      'Replay this Agent conversation';
     const ogImage = isDevelopment
       ? `${process.env.NEXT_PUBLIC_URL}/share-page/og-fallback.png`
       : `${process.env.NEXT_PUBLIC_URL}/api/share-page/og-image?title=${projectData.name}`;

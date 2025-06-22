@@ -1,0 +1,25 @@
+{
+  "user": "mariete",
+  "branding": {
+    "name": "Mariete AI",
+    "description": "The AI Assistant that acts on your behalf.",
+    "logo": "/buffo-symbol.svg",
+    "fullLogo": "/mariete-logo.svg",
+    "favicon": "/favicon.ico",
+    "primaryColor": "#3b82f6",
+    "accentColor": "#1d4ed8"
+  },
+  "app": {
+    "title": "Mariete AI Dashboard",
+    "welcomeMessage": "What would you like Mariete AI to do today?",
+    "placeholderText": "Ask Mariete AI to...",
+    "cta": "Start with Mariete",
+    "url": "http://157.180.8.150:3000"
+  },
+  "contact": {
+    "email": "support@mariete.ai",
+    "twitter": "https://x.com/marieteai",
+    "discord": "https://discord.gg/marieteai",
+    "github": "https://github.com/mariete-ai/mariete"
+  }
+}

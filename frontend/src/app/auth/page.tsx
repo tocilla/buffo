@@ -19,6 +19,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 import {
   Dialog,
@@ -33,6 +34,7 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isLoading } = useAuth();
+  const { config, loading: configLoading } = useUserConfig();
   const mode = searchParams.get('mode');
   const returnUrl = searchParams.get('returnUrl');
   const message = searchParams.get('message');
@@ -368,7 +370,10 @@ function LoginContent() {
               </Link> */}
 
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tighter text-center text-balance text-primary">
-                {isSignUp ? 'Join Faal AI' : 'Welcome back'}
+                {isSignUp
+                  ? `Join ${configLoading ? 'AI' : config.branding.name}`
+                  : 'Welcome back'
+                }
               </h1>
               <p className="text-base md:text-lg text-center text-muted-foreground font-medium text-balance leading-relaxed tracking-tight mt-2 mb-6">
                 {isSignUp

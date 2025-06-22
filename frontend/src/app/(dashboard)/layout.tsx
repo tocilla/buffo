@@ -14,6 +14,7 @@ import { MaintenancePage } from '@/components/maintenance/maintenance-page';
 import { DeleteOperationProvider } from '@/contexts/DeleteOperationContext';
 import { StatusOverlay } from '@/components/ui/status-overlay';
 import { VSentry } from '@/components/sentry';
+import { DynamicTitle } from '@/components/DynamicTitle';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -82,6 +83,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <DeleteOperationProvider>
+      <DynamicTitle />
       <SidebarProvider>
         <SidebarLeft />
         <SidebarInset>

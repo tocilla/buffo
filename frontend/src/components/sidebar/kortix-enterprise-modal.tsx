@@ -10,18 +10,23 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 import Image from 'next/image';
 import Cal, { getCalApi } from '@calcom/embed-react';
 import { useTheme } from 'next-themes';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 export function KortixProcessModal() {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const { resolvedTheme } = useTheme();
+  const { config, loading: configLoading } = useUserConfig();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const logoSrc = '/buffo-logo.svg';
+    // Determine the logo based on user configuration
+  const logoSrc = configLoading
+    ? '/buffo-logo.svg'
+    : (config.branding.fullLogo || '/buffo-logo.svg');
 
   useEffect(() => {
     (async function () {
@@ -39,7 +44,7 @@ export function KortixProcessModal() {
       </DialogTrigger>
       <DialogContent className="p-0 gap-0 border-none max-w-[70vw] rounded-xl overflow-hidden">
         <DialogTitle className="sr-only">
-          Custom AI Employees for your Business.
+          {configLoading ? 'Custom AI Employees for your Business.' : `Custom ${config.branding.name} Employees for your Business.`}
         </DialogTitle>
         <div className="grid grid-cols-1 md:grid-cols-2 h-[800px]">
           {/* Info Panel */}
@@ -48,7 +53,7 @@ export function KortixProcessModal() {
               <div className="mb-8 mt-0 flex-shrink-0">
                 <Image
                   src={logoSrc}
-                  alt="Buffo Logo"
+                  alt={`${configLoading ? 'AI' : config.branding.name} Logo`}
                   width={60}
                   height={21}
                   className={`h-6 w-auto ${mounted && resolvedTheme === 'dark' ? 'invert' : ''}`}
@@ -56,11 +61,13 @@ export function KortixProcessModal() {
               </div>
 
               <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4 text-foreground flex-shrink-0">
-                Custom AI Employees for your Business
+                {configLoading ? 'Custom AI Employees for your Business' : `Custom ${config.branding.name} Employees for your Business`}
               </h2>
               <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-lg flex-shrink-0">
-                Create custom AI employees for your business based on your human
-                employees data.
+                {configLoading
+                  ? 'Create custom AI employees for your business based on your human employees data.'
+                  : `Create custom ${config.branding.name} employees for your business based on your human employees data.`
+                }
               </p>
 
               <div className="space-y-8 mb-auto flex-shrink-0">

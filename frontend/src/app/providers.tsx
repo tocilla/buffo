@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import { useState, createContext, useEffect } from 'react';
 import { AuthProvider } from '@/components/AuthProvider';
 import { ReactQueryProvider } from '@/providers/react-query-provider';
+import { UserConfigProvider } from '@/contexts/UserConfigContext';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 
 export interface ParsedTag {
@@ -41,14 +42,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <AuthProvider>
-      <ToolCallsContext.Provider value={{ toolCalls, setToolCalls }}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ReactQueryProvider dehydratedState={dehydratedState}>
-            {children}
-          </ReactQueryProvider>
-        </ThemeProvider>
-      </ToolCallsContext.Provider>
-    </AuthProvider>
+    <UserConfigProvider>
+      <AuthProvider>
+        <ToolCallsContext.Provider value={{ toolCalls, setToolCalls }}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ReactQueryProvider dehydratedState={dehydratedState}>
+              {children}
+            </ReactQueryProvider>
+          </ThemeProvider>
+        </ToolCallsContext.Provider>
+      </AuthProvider>
+    </UserConfigProvider>
   );
 }

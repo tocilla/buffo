@@ -16,6 +16,7 @@ import { AttachmentGroup } from '../attachment-group';
 import { useModelSelection } from './_use-model-selection';
 import { useFileDelete } from '@/hooks/react-query/files';
 import { useQueryClient } from '@tanstack/react-query';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 export interface ChatInputHandles {
   getPendingFiles: () => File[];
@@ -91,6 +92,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
 
     const deleteFileMutation = useFileDelete();
     const queryClient = useQueryClient();
+    const { config, loading: configLoading } = useUserConfig();
 
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -281,7 +283,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
           >
             <div className="text-xs text-muted-foreground flex items-center gap-2">
               <Loader2 className="h-3 w-3 animate-spin" />
-              <span>Faal AI is working...</span>
+              <span>{configLoading ? 'AI is working...' : `${config.branding.name} is working...`}</span>
             </div>
           </motion.div>
         )}

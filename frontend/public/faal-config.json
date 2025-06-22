@@ -1,0 +1,25 @@
+{
+  "user": "faal",
+  "branding": {
+    "name": "Faal AI",
+    "description": "The Generalist AI Agent that can act on your behalf.",
+    "logo": "/buffo-symbol.svg",
+    "fullLogo": "/faal-logo.svg",
+    "favicon": "/favicon.ico",
+    "primaryColor": "#10b981",
+    "accentColor": "#059669"
+  },
+  "app": {
+    "title": "Faal AI Dashboard",
+    "welcomeMessage": "What would you like Faal AI to do today?",
+    "placeholderText": "Ask Faal AI to...",
+    "cta": "Start with Faal",
+    "url": "http://157.180.8.150:3000"
+  },
+  "contact": {
+    "email": "support@faal.ai",
+    "twitter": "https://x.com/faalai",
+    "discord": "https://discord.gg/faalai",
+    "github": "https://github.com/faal-ai/faal"
+  }
+}

@@ -28,6 +28,7 @@ import { useInitiateAgentWithInvalidation } from '@/hooks/react-query/dashboard/
 import { ModalProviders } from '@/providers/modal-providers';
 import { useModal } from '@/hooks/use-modal-store';
 import { Examples } from './_components/suggestions/examples';
+import { useUserConfig } from '@/contexts/UserConfigContext';
 
 const PENDING_PROMPT_KEY = 'pendingAgentPrompt';
 
@@ -45,6 +46,7 @@ function DashboardContent() {
   const chatInputRef = useRef<ChatInputHandles>(null);
   const initiateAgentMutation = useInitiateAgentWithInvalidation();
   const { onOpen } = useModal();
+  const { config, loading: configLoading } = useUserConfig();
 
   const secondaryGradient =
     'bg-gradient-to-r from-blue-500 to-blue-500 bg-clip-text text-transparent';
@@ -175,7 +177,7 @@ function DashboardContent() {
               "text-2xl",
               "sm:text-3xl sm:mt-3 sm:px-4"
             )}>
-              What would you like Faal AI to do today?
+              {configLoading ? 'Loading...' : config.app.welcomeMessage}
             </p>
           </div>
 
@@ -188,7 +190,7 @@ function DashboardContent() {
               ref={chatInputRef}
               onSubmit={handleSubmit}
               loading={isSubmitting}
-              placeholder="Describe what you need help with..."
+              placeholder={configLoading ? 'Loading...' : config.app.placeholderText}
               value={inputValue}
               onChange={setInputValue}
               hideAttachments={false}
