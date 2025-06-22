@@ -43,15 +43,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <UserConfigProvider>
-      <AuthProvider>
-        <ToolCallsContext.Provider value={{ toolCalls, setToolCalls }}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ReactQueryProvider dehydratedState={dehydratedState}>
-              {children}
-            </ReactQueryProvider>
-          </ThemeProvider>
-        </ToolCallsContext.Provider>
-      </AuthProvider>
+    <AuthProvider>
+      <ToolCallsContext.Provider value={{ toolCalls, setToolCalls }}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ReactQueryProvider dehydratedState={dehydratedState}>
+            {children}
+          </ReactQueryProvider>
+        </ThemeProvider>
+      </ToolCallsContext.Provider>
+    </AuthProvider>
     </UserConfigProvider>
   );
 }
