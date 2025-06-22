@@ -42,7 +42,8 @@ async function getUserConfig(username?: string) {
   if (!username) return defaultConfig;
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/${username}-config.json`);
+    // Use relative URL to avoid middleware authentication issues
+    const response = await fetch(`/${username}-config.json`);
     if (response.ok) {
       return await response.json();
     }
@@ -56,7 +57,7 @@ async function getUserConfig(username?: string) {
 // Generate metadata dynamically based on user
 export async function generateMetadata(): Promise<Metadata> {
   const cookieStore = await cookies();
-  const username = cookieStore.get('username')?.value;
+  const username = cookieStore.get('basic-auth-user')?.value;
   const config = await getUserConfig(username);
 
   return {
