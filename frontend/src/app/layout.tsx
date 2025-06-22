@@ -42,7 +42,7 @@ async function getUserConfig(username?: string) {
   if (!username) return defaultConfig;
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${username}-config.json`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'}/${username}-config.json`);
     if (response.ok) {
       return await response.json();
     }
