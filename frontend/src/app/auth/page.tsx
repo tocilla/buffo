@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { useUserConfig } from '@/contexts/UserConfigContext';
+import MagicLinkHandler from '@/components/MagicLinkHandler';
 
 import {
   Dialog,
@@ -303,6 +304,7 @@ function LoginContent() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen w-full">
+      <MagicLinkHandler />
       <div className="w-full divide-y divide-border">
         {/* Hero-like header with flickering grid */}
         <section className="w-full relative overflow-hidden">
