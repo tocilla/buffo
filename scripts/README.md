@@ -77,3 +77,67 @@ The script imports these demo thread IDs:
 - **Performance**: No external API calls during normal operation
 - **Consistency**: Same data structure as production
 - **Offline**: Works without internet connection after import
+
+# Supabase Magic Link Generator
+
+Script to generate Supabase magic links from the command line.
+
+## Prerequisites
+
+Make sure you have the following environment variables set in your `.env` file:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+⚠️ **Important**: The `SUPABASE_SERVICE_ROLE_KEY` should be your **service role key**, not the anon key, as it has admin privileges to generate magic links.
+
+## Setup
+```bash
+cd scripts
+npm install
+```
+
+## Usage
+
+### Interactive mode (prompts for email):
+```bash
+npm run generate
+# or
+node generate-magic-link.js
+```
+
+### Command line argument (provide email directly):
+```bash
+node generate-magic-link.js curtis@timeless.nyc
+# or
+npm run generate curtis@timeless.nyc
+```
+
+## How it works
+
+1. The script prompts you to enter an email address
+2. It validates the email format
+3. It connects to Supabase using your service role key
+4. It generates a magic link for the specified email
+5. It displays the magic link that can be sent to the user
+
+## Example Output
+
+```
+Enter email address: user@example.com
+
+🔄 Generating magic link for: user@example.com
+
+✅ Magic link generated successfully!
+🔗 Magic link: https://your-project.supabase.co/auth/v1/verify?token=...&type=magiclink&redirect_to=...
+
+📧 This link can be sent to the user for passwordless login.
+```
+
+## Security Notes
+
+- Keep your service role key secure and never commit it to version control
+- Magic links are single-use and expire after a certain time
+- Only generate magic links for users you trust

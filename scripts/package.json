@@ -1,0 +1,23 @@
+{
+  "name": "supabase-magic-link-generator",
+  "version": "1.0.0",
+  "description": "Generate Supabase magic links from command line",
+  "type": "module",
+  "main": "generate-magic-link.js",
+  "scripts": {
+    "generate": "node generate-magic-link.js",
+    "generate:email": "node generate-magic-link.js",
+    "install-deps": "npm install"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "keywords": [
+    "supabase",
+    "magic-link",
+    "authentication"
+  ],
+  "author": "",
+  "license": "MIT"
+}
