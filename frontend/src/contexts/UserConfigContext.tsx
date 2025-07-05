@@ -93,7 +93,9 @@ export const UserConfigProvider: React.FC<UserConfigProviderProps> = ({ children
           if (username) {
             // Load the appropriate config file
             console.log(`Loading config for user: ${username}`);
-            const configResponse = await fetch(`/${username}-config.json`);
+            // Handle both client-side and server-side contexts
+            const baseUrl = typeof window !== 'undefined' ? '' : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000');
+            const configResponse = await fetch(`${baseUrl}/${username}-config.json`);
             console.log(`Config response status: ${configResponse.status}`);
 
             if (configResponse.ok) {
