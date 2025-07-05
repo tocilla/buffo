@@ -161,3 +161,60 @@ We welcome contributions from the community! Please see our [Contributing Guide]
 ## License
 
 Kortix Suna is licensed under the Apache License, Version 2.0. See [LICENSE](./LICENSE) for the full license text.
+
+# Frontend
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Basic Authentication
+
+The application now includes basic HTTP authentication to prevent unauthorized access. You need to set the following environment variables:
+
+```bash
+BASIC_AUTH_USER=admin
+BASIC_AUTH_PASSWORD=your_secure_password_here
+```
+
+If these environment variables are not set, the default credentials are:
+- Username: `admin`
+- Password: `password`
+
+**Important**: Make sure to change these default credentials in production!
+
+## Routing Changes
+
+- The landing page has been temporarily disabled and commented out
+- Root path (`/`) now redirects to:
+  - `/dashboard` if the user is authenticated with Supabase
+  - `/auth` if the user is not authenticated
+- All navigation buttons that previously linked to the home page have been commented out
+
+## Middleware Implementation
+
+The middleware is located at `src/middleware.ts` and handles:
+
+1. **Basic HTTP Authentication**: Protects the entire site with browser-based authentication
+2. **Smart Routing**: Automatically redirects users based on their authentication status
+3. **Session Validation**: Checks Supabase session to determine where to redirect users
+
+### Key Implementation Notes
+
+- **File Location**: The middleware file must be placed in `src/middleware.ts` (not in the root) when using the `src` folder structure
+- **Matcher Pattern**: Uses a regex pattern to exclude API routes, static files, and metadata files
+- **Environment Variables**: Supports custom basic auth credentials via environment variables
+
+## Troubleshooting
+
+If the middleware is not working:
+1. Ensure the middleware file is in `src/middleware.ts` (not root directory)
+2. Restart the development server after making middleware changes
+3. Check that the matcher pattern doesn't have trailing slashes in the regex
+4. Verify environment variables are set correctly

@@ -194,3 +194,6 @@ supabase/.temp/storage-version
 
 redis_data
 rabbitmq_data
+
+scripts/node_modules/
+script/.env
